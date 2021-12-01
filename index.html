@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+ <head> 
+  <style>
+   	@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight:400;
+}
+
+
+.main-div
+{
+  width:100vw;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background-color:#A7B8C3;
+}
+
+.inner-div
+{
+  padding:30px;
+  border:1px solid white;
+  border-radius:10px;
+  backgroud:white;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+}
+
+.inner-div h1
+{
+ // margin-left:2px;
+ font-weight:200;
+ margin-bottom:20px;
+}
+
+.inner-div li
+{
+  list-style:none;
+  margin:7px 0;
+}
+
+.btn
+{
+  display:block;
+  margin:auto;
+  font-size:17px;
+  padding:7px 40px;
+  border-radius:3px;
+  border:none;
+  background:#59B2D4;
+  color:white;
+  outline:none;
+  margin-top:15px;
+}
+
+#showScore
+{
+  padding:15px;
+  background:#DFD0D0;
+  margin-top:20px;
+  border-radius:10px;
+}
+
+.scoreArea
+{
+   display:none;
+}
+
+#showScore h1
+{
+  text-align:center;
+  font-weight:200;
+}
+  </style>
+ </head> 
+ <body> 
+  <div class="main-div"> 
+   <div class="inner-div"> 
+    <h1 id="questions">Questions Comes Here</h1> 
+    <ul> 
+     <li> <input type="radio" id="ans1" class="answer" name="answers"> <label for="ans1" id="option1">Answer 1</label> </li> 
+     <li> <input type="radio" id="ans2" class="answer" name="answers"> <label for="ans2" id="option2">Answer 1</label> </li> 
+     <li> <input type="radio" id="ans3" class="answer" name="answers"> <label for="ans3" id="option3">Answer 1</label> </li> 
+     <li> <input type="radio" id="ans4" class="answer" name="answers"> <label for="ans4" id="option4">Answer 1</label> </li> 
+    </ul> 
+    <button id="submit" class="btn">Submit</button> 
+    <div id="showScore" class="scoreArea"></div> 
+   </div> 
+  </div> 
+  <script>
+		  const quizDB=[
+  {
+     questions:"Q1. What is full form of HTML?",
+     a:"hey type multiple language",
+     b:"hyper text transfer language",
+     c:"hyper text markup language",
+     d:"hyper text multiple language",
+     ans:"ans3" 
+  },
+  {
+     questions:"Q2. What is full form of CSS?",
+     a:"client side scripting",
+     b:"cascading style sheet",
+     c:"cascading super set",
+     d:"cascading super server",
+     ans:"ans2"     
+  },
+  {
+     questions:"Q3. What is full form of JS?",
+     a:"javascript",
+     b:"javashort",
+     c:"javasome",
+     d:"javasimple",
+     ans:"ans1" 
+  },
+  {
+     questions:"Q4. What is full form of HTTP?",
+     a:"hyper text transfer protocol",
+     b:"hyper test transfer protocol",
+     c:"high transform text protocol",
+     d:"hey transfer protocol",
+     ans:"ans1"  
+  } 
+];
+
+const questions=document.querySelector("#questions");
+const option1=document.querySelector("#option1");
+const option2=document.querySelector("#option2");
+const option3=document.querySelector("#option3");
+const option4=document.querySelector("#option4");
+const answers=document.querySelectorAll(".answer");
+const submit=document.querySelector("#submit");
+const showScore=document.querySelector("#showScore");
+let quescount=0;
+let score=0;
+
+
+const loadQuiz=()=>
+{
+  const quiz=quizDB[quescount];
+    
+  questions.innerHTML=quiz.questions;
+  option1.innerHTML=quiz.a;
+  option2.innerHTML=quiz.b;
+  option3.innerHTML=quiz.c;
+  option4.innerHTML=quiz.d;
+}
+
+loadQuiz();
+
+const getUserOption=()=>
+{
+  let answer;
+  answers.forEach((curElem)=>
+  {
+     if(curElem.checked)
+     {
+       answer=curElem.id;
+     }
+  }); 
+  
+  return answer;   
+}
+
+submit.addEventListener("click", ()=>
+{
+  const getuser=getUserOption();
+//  console.log(getuser);
+  if(getuser==quizDB[quescount].ans)
+  {
+    score++;
+  };
+  
+  
+  quescount++;  
+  //console.log(score+" "+quescount);
+  
+  if(quescount<quizDB.length)
+  {
+    loadQuiz();
+  }
+  else
+  {
+   showScore.innerHTML=`<h1> Your Score ${score}/${quizDB.length} </h1>
+               <button class="btn" style="background:green"; onclick="location.reload()"> PlayAgain </button>`; 
+               
+   showScore.classList.remove('scoreArea');
+  }
+});
+</script>
+ </body>
+</html>
